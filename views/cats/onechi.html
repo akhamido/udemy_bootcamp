@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+{{end}}
+
+<div class="main_content">
+
+  <p>{{=greeting}} class</p>
+
+  <p>You have visited this page {{=count}} times</p>
+
+  <p>Do you want to see <a href="{{=URL('cats', 'twochi', args=[greeting])}}">two cats</a>?
+  </p>
+
+  <img src="{{=URL('static', 'images/chi1.jpg')}}" />
+
+</div>
+
