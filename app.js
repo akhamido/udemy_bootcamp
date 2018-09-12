@@ -10,14 +10,17 @@ app.set("view engine", "ejs");
 // Scheme Setup
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 // Campground.create(
 //     {
 //         name:"Salmon Creek",
-//         image: "https://farm3.staticflickr.com/2238/1514148183_092606ba94.jpg"
+//         image: "https://farm3.staticflickr.com/2238/1514148183_092606ba94.jpg",
+//         description: "This is Salmon Creek as its written"
+//
 //     }, function(err, campground){
 //         if(err){
 //             console.log(err)
@@ -51,7 +54,7 @@ app.get("/campgrounds", function(req, res){
         if(err){
             console.log(err);
         } else {
-            res.render("campgrounds", {campgrounds:campgrounds});
+            res.render("index", {campgrounds:campgrounds});
         }
     })
 });
@@ -59,7 +62,8 @@ app.get("/campgrounds", function(req, res){
 app.post("/campgrounds", function(req, res){
     var campName = req.body.name;
     var campImg = req.body.img;
-    var newCampground = {name: campName, image:campImg};
+    var campDescription = req.body.description;
+    var newCampground = {name: campName, image:campImg, description: campDescription};
     //Create new campgrounds and save to debug
     Campground.create(newCampground, function(err, newlyCreated){
         if(err){
@@ -69,9 +73,18 @@ app.post("/campgrounds", function(req, res){
         }
     })
 });
-
 app.get("/campgrounds/new", function(req, res){
     res.render("new")
+})
+
+app.get("/campgrounds/:id", function(req, res){
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("show", {campground: foundCampground});
+        }
+    })
 })
 
 app.listen(3000, function(){
