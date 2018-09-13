@@ -1,49 +1,15 @@
 var express    = require("express"),
     app        = express(),
     bodyParser = require("body-parser"),
-    mongoose   = require("mongoose");
+    mongoose   = require("mongoose"),
+    Campground = require("./models/campground"),
+    seedDB = require("./seeds.js");
+seedDB();
 
 mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended:true}));
+
 app.set("view engine", "ejs");
-
-// Scheme Setup
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-var Campground = mongoose.model("Campground", campgroundSchema);
-// Campground.create(
-//     {
-//         name:"Salmon Creek",
-//         image: "https://farm3.staticflickr.com/2238/1514148183_092606ba94.jpg",
-//         description: "This is Salmon Creek as its written"
-//
-//     }, function(err, campground){
-//         if(err){
-//             console.log(err)
-//         }
-//         else {
-//             console.log("Newly created Campground: ");
-//             console.log(campground);
-//         }
-//     }
-// )
-
-// var campgrounds =
-// [
-//     {name:"Salmon Creek", image: "https://farm3.staticflickr.com/2238/1514148183_092606ba94.jpg"},
-//     {name:"Grant Hill", image: "https://farm2.staticflickr.com/1363/1342367857_2fd12531e7.jpg"},
-//     {name:"Salmon Creek", image: "https://farm3.staticflickr.com/2238/1514148183_092606ba94.jpg"},
-//     {name:"Grant Hill", image: "https://farm2.staticflickr.com/1363/1342367857_2fd12531e7.jpg"},
-//     {name:"Salmon Creek", image: "https://farm3.staticflickr.com/2238/1514148183_092606ba94.jpg"},
-//     {name:"Grant Hill", image: "https://farm2.staticflickr.com/1363/1342367857_2fd12531e7.jpg"},
-//     {name:"Salmon Creek", image: "https://farm3.staticflickr.com/2238/1514148183_092606ba94.jpg"},
-//     {name:"Grant Hill", image: "https://farm2.staticflickr.com/1363/1342367857_2fd12531e7.jpg"},
-//
-// ];
 
 app.get("/", function(req, res){
     res.render("landing");
@@ -78,7 +44,7 @@ app.get("/campgrounds/new", function(req, res){
 })
 
 app.get("/campgrounds/:id", function(req, res){
-    Campground.findById(req.params.id, function(err, foundCampground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
         if(err){
             console.log(err);
         } else {
