@@ -10,4 +10,4 @@ app.get('/about', function(req, res){
     res.render('about');
 })
 
-app.listen(3000);
+app.listen(process.env.PORT, process.env.IP);
