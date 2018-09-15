@@ -8,13 +8,14 @@ var express    = require("express"),
     Comment = require("./models/comment"),
     User        = require("./models/user"),
     methodOverride = require("method-override"),
+    flash = require("connect-flash"),
     seedDB = require("./seeds.js");
 
 var commentRoutes       = require("./routes/comments"),
     campgroundRoutes    = require("./routes/campgrounds"),
     indexRoutes         = require("./routes/index");
 
-
+app.use(flash());
 mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser: true});
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
@@ -37,6 +38,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 })
 app.use(indexRoutes);
