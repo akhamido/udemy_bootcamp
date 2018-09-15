@@ -1,0 +1,27 @@
+{
+  "name": "deploying_demo",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+      "node": "10.3.0",
+      "npm": "6.1.0"
+  },
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akhamido/udemy_bootcamp.git"
+  },
+  "author": "Akobir Khamidov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akhamido/udemy_bootcamp/issues"
+  },
+  "homepage": "https://github.com/akhamido/udemy_bootcamp#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
+  }
+}
